@@ -1,0 +1,9 @@
+footer {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    color: white;
+    font-family: "Open Sans", sans-serif;
+    height: 50px;
+    padding: 5px 10px 5px 10px;
+}
