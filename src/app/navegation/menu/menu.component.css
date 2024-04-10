@@ -1,0 +1,52 @@
+.main-nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    background-color: black;
+    height: 50px;
+    font-size: 1em;
+    font-family: "Open Sans", sans-serif;
+}
+
+.logo-container {
+    padding: 5px 10px 5px 10px;
+    flex: 0 0 150px;
+}
+
+.business-menu-container {
+    flex: 1 1 25%;
+}
+
+.search-bar-container {
+    flex: 1 5 30%;
+}
+
+.auth-menu-container {
+    flex: 1 1 150px;
+    justify-self: end;
+}
+
+.business-menu, .auth-menu {
+    display: flex;
+}
+
+.business-menu-container > .business-menu  {
+    list-style-type: none;
+}
+
+.business-menu > li > a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+}
+
+.auth-menu {
+    list-style-type: none;
+}
+
+.auth-menu > li > a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+}
