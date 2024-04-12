@@ -2,16 +2,16 @@
     <div class="nav-bar-item logo-container">Daltro Store</div>
     <div class="nav-bar-item business-menu-container">
         <ul class="business-menu">
-            <li><a routerLink="/home">Home</a></li>
-            <li><a routerLink="/products">Produtos</a></li>
-            <li><a routerLink="/suppliers">Fornecedores</a></li>
+            <li><a routerLink="/home" routerLinkActive="seleced-menu-item">Home</a></li>
+            <li><a routerLink="/products" routerLinkActive="seleced-menu-item">Produtos</a></li>
+            <li><a routerLink="/suppliers" routerLinkActive="seleced-menu-item">Fornecedores</a></li>
         </ul>
     </div>
     <div class="nav-bar-item search-bar-container">Pesquisar</div>
     <div class="nav-bar-item auth-menu-container">
         <ul class="auth-menu">
-            <li><a href="#">Entrar</a></li>
-            <li><a href="#">Criar Conta</a></li>
+            <li><a routerLink="/account/login"  routerLinkActive="seleced-menu-item">Entrar</a></li>
+            <li><a routerLink="/account/register"  routerLinkActive="seleced-menu-item">Criar Conta</a></li>
         </ul>
     </div>
 </nav>

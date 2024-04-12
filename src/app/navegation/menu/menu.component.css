@@ -1,8 +1,12 @@
+:host {
+    --menu-items-color: rgba(255, 255, 255, 0.782);
+}
+
 .main-nav-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: white;
+    color: var(--menu-items-color);
     background-color: black;
     height: 50px;
     font-size: 1em;
@@ -35,8 +39,8 @@
     list-style-type: none;
 }
 
-.business-menu > li > a {
-    color: white;
+a {
+    color: var(--menu-items-color);
     text-decoration: none;
     padding: 5px 10px 5px 10px;
 }
@@ -45,8 +49,7 @@
     list-style-type: none;
 }
 
-.auth-menu > li > a {
+.seleced-menu-item {
     color: white;
-    text-decoration: none;
-    padding: 5px 10px 5px 10px;
+    font-weight: bolder;
 }
