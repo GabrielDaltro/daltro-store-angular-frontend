@@ -10,6 +10,7 @@ import { Observable, fromEvent, merge } from 'rxjs';
   selector: 'app-register',
   standalone: true,
   imports: [],
+  providers: [AccountService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
