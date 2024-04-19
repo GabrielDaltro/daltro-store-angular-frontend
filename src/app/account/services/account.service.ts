@@ -11,11 +11,11 @@ export class AccountService{
         this.httpClinet = httpClient;
     }
 
-    registUser(user: User) : void {
+    public registUser(user: User) : void {
 
     }
 
-    login(user: User) : void {
+    public login(user: User) : void {
 
     }
 }

@@ -5,11 +5,12 @@ import { User } from '../models/user';
 import { AccountService } from '../services/account.service';
 import { DisplayMessage, GenericValidator, ValidationMessages } from '../../utils/generic-form-validation';
 import { Observable, fromEvent, merge } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   providers: [AccountService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
