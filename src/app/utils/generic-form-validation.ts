@@ -19,11 +19,11 @@ export class GenericValidator {
                     Object.assign(messages, childMessages);
                 } else {
                     if (this.validationMessages[controlKey]) {
-                        messages[controlKey] = '';
+                        messages[controlKey] = {};
                         if ((control.dirty || control.touched) && control.errors){
                             Object.keys(control.errors).map(messageKey => {
                                 if (this.validationMessages[controlKey][messageKey]){
-                                    messages[controlKey] += this.validationMessages[controlKey][messageKey];
+                                    messages[controlKey][messageKey] = this.validationMessages[controlKey][messageKey];
                                 }
                             });
                         }
@@ -40,5 +40,5 @@ export class ValidationMessages{
 }
 
 export class DisplayMessage {
-    [key: string] : string
+    [key: string] : {[key: string] : string}
 }

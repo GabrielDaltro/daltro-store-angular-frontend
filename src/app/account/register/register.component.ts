@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
-import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormControlName, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomValidators } from '@narik/custom-validators';
 import { User } from '../models/user';
 import { AccountService } from '../services/account.service';
@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule],
   providers: [AccountService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -22,10 +22,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   private errors: any[] = [];
   private user : User | undefined;
-  private registrationForm! : FormGroup;
   private readonly formBuilder : FormBuilder;
   private readonly accountService : AccountService;
-
+  
+  registrationForm! : FormGroup;
   validationMessages: ValidationMessages;
   genericValidator: GenericValidator;
   displayMessage: DisplayMessage = {};
@@ -36,6 +36,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.accountService = accountService;
 
     this.validationMessages = {
+      name: {
+        required: 'Informe o nome'
+      },
       email: {
         required: 'Informe o e-mail',
         email: 'Email inválido'
@@ -56,9 +59,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     let password = new FormControl('', [Validators.required ,CustomValidators.rangeLength([6, 15])]);
-    let confirmPassword = new FormControl('',[Validators.required ,CustomValidators.rangeLength([6, 15]), CustomValidators.equalTo(password)]);
+    let confirmPassword = new FormControl('',[Validators.required , CustomValidators.equalTo(password)]);
 
     this.registrationForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: password,
       confirmPassword: confirmPassword
@@ -78,7 +82,18 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     if (this.registrationForm!.dirty && this.registrationForm!.valid)
     {
       this.user = Object.assign({}, this.user, this.registrationForm?.value); 
-        this.accountService.registUser(this.user!);
+      this.accountService.registUser(this.user!);
     }
+  }
+
+  getErrorListByFormControlName(formControlName : string) : string[]
+  {
+    const errors : string[] = [];
+    const messagesOfControl = this.displayMessage[formControlName];
+    for(let error in messagesOfControl)
+    {
+      errors.push(messagesOfControl[error]);
+    }
+    return errors;
   }
 }

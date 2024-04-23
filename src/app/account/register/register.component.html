@@ -1,12 +1,40 @@
 <div class="main-container">
     <div class="form-container">
         <div class="title-container"><h1 class="form-title">Criar Conta</h1></div>
-        <form class="register-form">
-            <input type="text" name="name-input" placeholder="Nome Completo"><br>
-            <input type="email" name="email-input" placeholder="E-mail"><br>
-            <input type="password" name="password-input" placeholder="Senha"><br>
-            <input type="password" name="confirm-password" placeholder="Repetir Senha"><br>
-            <button type="submit">Cadastrar</button>
+        <form class="register-form" (ngSubmit)="addUserAccount()" [formGroup]="registrationForm">
+            <div class="form-group">
+                <input type="text" name="name-input" placeholder="Nome Completo" formControlName="name">
+                @if(displayMessage['name']){
+                    @for(error of getErrorListByFormControlName('name'); track error){
+                        <span class="error-message">{{error}}</span><br>
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <input type="email" name="email-input" placeholder="E-mail" formControlName="email">
+                @if(displayMessage['email']){
+                    @for(error of getErrorListByFormControlName('email'); track error){
+                        <span class="error-message">{{error}}</span><br>
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <input type="password" name="password-input" placeholder="Senha" formControlName="password"><br>
+                @if(displayMessage['password']){
+                    @for(error of getErrorListByFormControlName('password'); track error){
+                        <span class="error-message">{{error}}</span><br>
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <input type="password" name="confirm-password" placeholder="Repetir Senha" formControlName="confirmPassword"><br>
+                @if(displayMessage['confirmPassword']){
+                    @for(error of getErrorListByFormControlName('confirmPassword'); track error){
+                        <span class="error-message">{{error}}</span><br>
+                    }
+                }
+            </div>           
+            <button type="submit" >Cadastrar</button>
         </form>
         <span class="login-container"><p>Tem uma conta? faça <a routerLink="/account/login">Login</a></p></span>
     </div>
