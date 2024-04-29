@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   @ViewChildren(FormControlName, {read: ElementRef})
   formInputElements!: ElementRef[];
 
-  private errors: any[] = [];
+  public errors: any[] = [];
   private user : User | undefined;
   private readonly formBuilder : FormBuilder;
   private readonly accountService : AccountService;
@@ -82,7 +82,12 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     if (this.registrationForm!.dirty && this.registrationForm!.valid)
     {
       this.user = Object.assign({}, this.user, this.registrationForm?.value); 
-      this.accountService.registUser(this.user!);
+      this.accountService
+        .registUser(this.user!)
+        .subscribe({
+          next: response => this.processSuccess(response),
+          error: error => this.processError(error)
+        });
     }
   }
 
@@ -95,5 +100,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       errors.push(messagesOfControl[error]);
     }
     return errors;
+  }
+
+  processSuccess(response: any) {
+    this.registrationForm.reset();
+    this.errors = [];
+  }
+
+  processError(fail: any) {
+    this.errors = fail.error.error;
   }
 }

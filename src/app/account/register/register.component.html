@@ -1,4 +1,14 @@
 <div class="main-container">
+    @if(errors.length > 0){
+    <div>
+        <h3>Opa! Alguma coisa não deu certo:</h3>
+        <ul>
+            @for (error of errors; track error){
+                <li>error</li>
+            }
+        </ul>
+    </div>
+    }
     <div class="form-container">
         <div class="title-container"><h1 class="form-title">Criar Conta</h1></div>
         <form class="register-form" (ngSubmit)="addUserAccount()" [formGroup]="registrationForm">
