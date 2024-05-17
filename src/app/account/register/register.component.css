@@ -5,7 +5,21 @@
 
 .main-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+}
+
+.error-container {
+    color: #ac4950;
+    background-color: #f0dfdf;
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.error-container ul {
+    list-style-position: inside;
 }
 
 .form-container {

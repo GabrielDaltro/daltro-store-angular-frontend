@@ -16,7 +16,7 @@ export class AccountService extends BaseService{
 
     public registUser(user: User) : Observable<User> {
         let response = this.httpClinet
-                .post(this.UrlServiceV1 + 'nova-conta', user, this.getHeaderJson())
+                .post(this.UrlServiceV1 + 'auth/create-account', user, this.getHeaderJson())
                 .pipe(
                     map(this.extractData),
                     catchError(this.HandleError)

@@ -3,7 +3,7 @@ import { Observable, throwError } from "rxjs";
 
 export abstract class BaseService {
 
-    protected UrlServiceV1: string = "https://localhost:5001/api/v1/";
+    protected UrlServiceV1: string = "https://localhost:7292/api/";
 
     protected getHeaderJson() {
         return {
@@ -27,6 +27,6 @@ export abstract class BaseService {
             }
         }
         console.error(response);
-        return throwError(() => new Error(response));
+        return throwError(() => response);
     }
 }

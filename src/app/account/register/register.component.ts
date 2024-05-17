@@ -108,6 +108,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   }
 
   processError(fail: any) {
-    this.errors = fail.error.error;
+    this.errors = fail.error.errors.Message;
   }
 }
