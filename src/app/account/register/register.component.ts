@@ -5,7 +5,7 @@ import { User } from '../models/user';
 import { AccountService } from '../services/account.service';
 import { DisplayMessage, GenericValidator, ValidationMessages } from '../../utils/generic-form-validation';
 import { Observable, fromEvent, merge } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +31,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   displayMessage: DisplayMessage = {};
 
   constructor(formBuilder : FormBuilder, 
-              accountService : AccountService) {
+              accountService : AccountService,
+            private router: Router) {
     this.formBuilder = formBuilder;
     this.accountService = accountService;
 
@@ -105,6 +106,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   processSuccess(response: any) {
     this.registrationForm.reset();
     this.errors = [];
+    
+    this.accountService.localStorage.saveLocalUserData(response);
+
+    this.router.navigate(['/home']);
   }
 
   processError(fail: any) {
