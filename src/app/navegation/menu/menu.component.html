@@ -1,17 +1,14 @@
 <nav class="main-nav-bar">
-    <div class="nav-bar-item logo-container">Daltro Store</div>
-    <div class="nav-bar-item business-menu-container">
+    <div class="logo-container">Daltro Store</div>
+    <div class="business-menu-container">
         <ul class="business-menu">
             <li><a routerLink="/home" routerLinkActive="seleced-menu-item">Home</a></li>
             <li><a routerLink="/products" routerLinkActive="seleced-menu-item">Produtos</a></li>
             <li><a routerLink="/suppliers" routerLinkActive="seleced-menu-item">Fornecedores</a></li>
         </ul>
     </div>
-    <div class="nav-bar-item search-bar-container">Pesquisar</div>
-    <div class="nav-bar-item auth-menu-container">
-        <ul class="auth-menu">
-            <li><a routerLink="/account/login"  routerLinkActive="seleced-menu-item">Entrar</a></li>
-            <li><a routerLink="/account/register"  routerLinkActive="seleced-menu-item">Criar Conta</a></li>
-        </ul>
+    <div class="search-bar-container">Pesquisar</div>
+    <div class="auth-menu-container">
+        <app-login-menu></app-login-menu>
     </div>
 </nav>

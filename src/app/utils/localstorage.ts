@@ -1,6 +1,8 @@
+import { User } from "../account/models/user";
+
 export class LocalStorageUtils {
 
-    public getUser() {
+    public getUser() : User | null {
         const jsonUser = localStorage.getItem('daltrostore.user');
         if (jsonUser == null) return null;
         return JSON.parse(jsonUser);
@@ -11,7 +13,7 @@ export class LocalStorageUtils {
         this.saveUser(response.userToken);
     }
 
-    public cleanLocalUserData(response: any) {
+    public cleanLocalUserData() {
         localStorage.removeItem("daltrostore.token");
         localStorage.removeItem("daltrostore.user");
     }

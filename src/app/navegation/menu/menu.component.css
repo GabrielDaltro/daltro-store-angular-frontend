@@ -35,7 +35,11 @@
     display: flex;
 }
 
-.business-menu-container > .business-menu  {
+.business-menu  {
+    list-style-type: none;
+}
+
+.auth-menu {
     list-style-type: none;
 }
 
@@ -45,9 +49,6 @@ a {
     padding: 5px 10px 5px 10px;
 }
 
-.auth-menu {
-    list-style-type: none;
-}
 
 .seleced-menu-item {
     color: white;

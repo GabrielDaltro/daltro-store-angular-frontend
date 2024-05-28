@@ -1,0 +1,12 @@
+@if(accoutService.isLoggedIn()) {
+    <ul class="auth-menu">
+        <li><a href="javascript:void(0)">{{getUserName()}}</a></li>
+        <li><a href="javascript:void(0)" (click)="logout()">Logout</a></li>
+    </ul>
+}
+@else {
+    <ul class="auth-menu">
+        <li><a routerLink="/account/login" routerLinkActive="seleced-menu-item">Login</a></li>
+        <li><a routerLink="/account/register" routerLinkActive="seleced-menu-item">Criar Conta</a></li>
+    </ul>
+}

@@ -18,7 +18,7 @@ export abstract class BaseService {
     }
 
     protected extractData(response: any) : any {
-        return response.data || {};
+        return response || {};
     }
 
     protected HandleError(response: Response | any) : Observable<never> {
