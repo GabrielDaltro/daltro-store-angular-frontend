@@ -6,6 +6,7 @@ import { AccountService } from '../services/account.service';
 import { DisplayMessage, GenericValidator, ValidationMessages } from '../../utils/generic-form-validation';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
+import { ActiveToast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   constructor(formBuilder : FormBuilder, 
               accountService : AccountService,
-            private router: Router) {
+            private router: Router,
+            private toastr: ToastrService) {
     this.formBuilder = formBuilder;
     this.accountService = accountService;
 
@@ -108,8 +110,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.errors = [];
     
     this.accountService.localStorage.saveLocalUserData(response);
-
-    this.router.navigate(['/home']);
+    const activeToast: ActiveToast<any> = this.toastr.success('Cadastro realizado com sucesso!', 'Bem vindo!', {
+      progressBar: true
+    });
+    activeToast.onHidden.subscribe(() => this.router.navigate(['/home']));
   }
 
   processError(fail: any) {
