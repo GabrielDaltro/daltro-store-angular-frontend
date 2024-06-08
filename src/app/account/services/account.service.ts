@@ -4,7 +4,7 @@ import { User } from "../models/user";
 import { Observable, catchError, map, tap } from "rxjs";
 import { BaseService } from "../../services/base.service";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AccountService extends BaseService {
 
     private httpClinet : HttpClient;

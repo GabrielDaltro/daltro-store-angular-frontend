@@ -5,8 +5,9 @@ import { User } from '../models/user';
 import { AccountService } from '../services/account.service';
 import { DisplayMessage, GenericValidator, ValidationMessages } from '../../utils/generic-form-validation';
 import { Observable, fromEvent, merge } from 'rxjs';
-import { Router, RouterLink } from '@angular/router';
+import { GuardResult, MaybeAsync, Router, RouterLink } from '@angular/router';
 import { ActiveToast, ToastrService } from 'ngx-toastr';
+import { CanComponentDeactivate } from '../services/cancomponentdeactivate';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,7 @@ import { ActiveToast, ToastrService } from 'ngx-toastr';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent implements OnInit, AfterViewInit { 
+export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDeactivate { 
   
   @ViewChildren(FormControlName, {read: ElementRef})
   formInputElements!: ElementRef[];
@@ -26,6 +27,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   private readonly formBuilder : FormBuilder;
   private readonly accountService : AccountService;
   
+  unsavedChanges: boolean;
   registrationForm! : FormGroup;
   validationMessages: ValidationMessages;
   genericValidator: GenericValidator;
@@ -58,6 +60,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     };
 
     this.genericValidator = new GenericValidator(this.validationMessages);
+    this.unsavedChanges = false;
   }
 
   ngOnInit(): void {
@@ -78,6 +81,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   
     merge(...controlsBlurs).subscribe(() => {
       this.displayMessage = this.genericValidator.processMessages(this.registrationForm);
+      this.unsavedChanges = true;
     });
   }
 
@@ -108,6 +112,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   processSuccess(response: any) {
     this.registrationForm.reset();
     this.errors = [];
+    this.unsavedChanges = false;
     
     this.accountService.localStorage.saveLocalUserData(response);
     const activeToast: ActiveToast<any> = this.toastr.success('Cadastro realizado com sucesso!', 'Bem vindo!', {
@@ -118,5 +123,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   processError(fail: any) {
     this.errors = fail.error.errors.Message;
+  }
+
+  canDeactivate() {
+    if (this.unsavedChanges)
+      return window.confirm("Tem certeza que deseja sair?");
+    return true; 
   }
 }

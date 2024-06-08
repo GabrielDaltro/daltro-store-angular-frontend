@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 
 export class GenericValidator {
     
@@ -9,7 +9,7 @@ export class GenericValidator {
     }
 
     processMessages(formGroup: FormGroup): DisplayMessage {
-        let messages: DisplayMessage = {};
+        const messages: DisplayMessage = {};
         for (let controlKey in formGroup.controls){
             if (formGroup.controls.hasOwnProperty(controlKey)){
                 let control = formGroup.controls[controlKey];
