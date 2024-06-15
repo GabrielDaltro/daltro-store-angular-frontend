@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { LoginMenuComponent } from "../../account/login-menu/login-menu.component";
+import { LoginMenuComponent } from "./login-menu/login-menu.component";
 
 @Component({
     selector: 'app-menu',

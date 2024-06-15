@@ -1,7 +1,7 @@
 import { CanActivateFn, CanDeactivateFn } from "@angular/router";
 import { CanComponentDeactivate } from "./cancomponentdeactivate";
 import { inject } from "@angular/core";
-import { AccountService } from "./account.service";
+import { AccountService } from "../../../services/account.service";
 
 export function canActivateRegisterGuard() : CanActivateFn {
     return () => {

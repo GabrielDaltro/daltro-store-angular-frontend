@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
-import { canActivateLoginGuard, canActivateRegisterGuard, canDeactiveRegisterGuard } from "./services/account.guard";
+import { canActivateLoginGuard, canActivateRegisterGuard, canDeactiveRegisterGuard } from "./guards/account.guard";
 
 export const AccountRoutes: Routes = [
     {

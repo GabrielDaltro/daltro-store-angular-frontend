@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
-import { AccountService } from "../services/account.service";
+import { AccountService } from "../../../../services/account.service";
+
 
 @Component({
     selector: 'app-login-menu',
@@ -8,7 +9,7 @@ import { AccountService } from "../services/account.service";
     imports: [RouterLink, RouterLinkActive],
     providers: [AccountService],
     templateUrl: './login-menu.component.html',
-    styleUrls: ['../../navegation/menu/menu.component.css'],
+    styleUrls: ['../menu.component.css'],
 })
 export class LoginMenuComponent {
     

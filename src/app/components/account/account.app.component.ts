@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { AccountService } from "./services/account.service";
+import { AccountService } from "../../services/account.service";
 
 @Component({
     selector: 'account-app-root',

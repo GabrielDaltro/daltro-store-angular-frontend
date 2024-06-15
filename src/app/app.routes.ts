@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { ProductsComponent } from './products/products.component';
-import { SuppliersComponent } from './suppliers/suppliers.component';
-import { NotFoundComponent } from './navegation/not-found/not-found.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProductsComponent } from './components/products/products.component';
+import { SuppliersComponent } from './components/suppliers/suppliers.component';
+import { NotFoundComponent } from './components/navegation/not-found/not-found.component';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -11,7 +11,7 @@ export const routes: Routes = [
     {path: 'suppliers', component: SuppliersComponent},
     {
         path: 'account',
-        loadChildren: () => import('./account/account.routes').then(feature => feature.AccountRoutes)
+        loadChildren: () => import('./components/account/account.routes').then(feature => feature.AccountRoutes)
     },
 
     {path: '**', component: NotFoundComponent}

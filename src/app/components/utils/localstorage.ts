@@ -1,8 +1,8 @@
-import { User } from "../account/models/user";
+import { RegisterModel } from "../../models/user";
 
 export class LocalStorageUtils {
 
-    public getUser() : User | null {
+    public getUser() : RegisterModel | null {
         const jsonUser = localStorage.getItem('daltrostore.user');
         if (jsonUser == null) return null;
         return JSON.parse(jsonUser);
