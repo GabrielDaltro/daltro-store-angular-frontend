@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { RegisterModel } from "../models/user";
+import { User } from "../models/user";
 import { Observable, catchError, map, tap } from "rxjs";
 import { BaseService } from "./base.service";
 
@@ -14,12 +14,12 @@ export class AccountService extends BaseService {
         this.httpClinet = httpClient;
     }
 
-    public registUser(user: RegisterModel) : Observable<RegisterModel> {
+    public registUser(user: User) : Observable<User> {
         let response = this.httpClinet
                 .post(this.UrlServiceV1 + 'auth/create-account', user, this.getHeaderJson())
                 .pipe(
                     map(this.extractData),
-                    tap((user: RegisterModel) => {}),
+                    tap((user: User) => {}),
                     catchError(this.HandleError)
                 );
         return response;
@@ -29,7 +29,7 @@ export class AccountService extends BaseService {
         this.localStorage.cleanLocalUserData();
     }
 
-    public login(user: RegisterModel) : void {
+    public login(user: User) : void {
 
     }
 

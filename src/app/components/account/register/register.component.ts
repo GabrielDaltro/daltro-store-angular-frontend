@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, FormControlName, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomValidators } from '@narik/custom-validators';
-import { RegisterModel } from '../../../models/user';
+import { User } from '../../../models/user';
 import { AccountService } from '../../../services/account.service';
 import { DisplayMessage, GenericValidator, ValidationMessages } from '../../utils/generic-form-validation';
 import { Observable, fromEvent, merge } from 'rxjs';
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
   formInputElements!: ElementRef[];
 
   public errors: any[] = [];
-  private user : RegisterModel | undefined;
+  private user : User | undefined;
   private readonly formBuilder : FormBuilder;
   private readonly accountService : AccountService;
   
