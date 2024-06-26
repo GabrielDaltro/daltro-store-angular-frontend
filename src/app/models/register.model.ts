@@ -5,7 +5,6 @@ export class RegisterModel {
     private readonly _password: string;
     private readonly _confirmPassword: string;
     
-
     constructor(name: string, email: string, password: string, confirmPassword: string) {
         this._name = name;
         this._email = email;

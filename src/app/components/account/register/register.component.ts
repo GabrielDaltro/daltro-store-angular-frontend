@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, FormControlName, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomValidators } from '@narik/custom-validators';
-import { User } from '../../../models/user';
+import { UserModel } from '../../../models/user.model';
 import { AccountService } from '../../../services/account.service';
 import { DisplayMessage, GenericValidator, ValidationMessages } from '../../utils/generic-form-validation';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { GuardResult, MaybeAsync, Router, RouterLink } from '@angular/router';
 import { ActiveToast, ToastrService } from 'ngx-toastr';
 import { CanComponentDeactivate } from '../guards/cancomponentdeactivate';
+import { RegisterModel } from '../../../models/register.model';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
   formInputElements!: ElementRef[];
 
   public errors: any[] = [];
-  private user : User | undefined;
+  private user : RegisterModel | undefined;
   private readonly formBuilder : FormBuilder;
   private readonly accountService : AccountService;
   

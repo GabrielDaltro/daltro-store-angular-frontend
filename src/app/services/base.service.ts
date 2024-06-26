@@ -17,10 +17,6 @@ export abstract class BaseService {
         };
     }
 
-    protected extractData(response: any) : any {
-        return response || {};
-    }
-
     protected HandleError(response: Response | any) : Observable<never> {
         const customError : string[] = [];
 

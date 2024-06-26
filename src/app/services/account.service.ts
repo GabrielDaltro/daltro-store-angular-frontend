@@ -1,8 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { User } from "../models/user";
+import { RegisterModel } from "../models/register.model";
+import { UserModel } from "../models/user.model";
 import { Observable, catchError, map, tap } from "rxjs";
 import { BaseService } from "./base.service";
+import { LoginModel } from "../models/login.model";
+import { TokenInfo } from "../models/tokenInfo.model";
+import { Claim } from "../models/claim.model";
 
 @Injectable({providedIn: 'root'})
 export class AccountService extends BaseService {
@@ -14,23 +18,27 @@ export class AccountService extends BaseService {
         this.httpClinet = httpClient;
     }
 
-    public registUser(user: User) : Observable<User> {
+    public registUser(registerModel: RegisterModel) : Observable<UserModel> {
         let response = this.httpClinet
-                .post(this.UrlServiceV1 + 'auth/create-account', user, this.getHeaderJson())
+                .post(this.UrlServiceV1 + 'auth/create-account', registerModel, this.getHeaderJson())
                 .pipe(
                     map(this.extractData),
-                    tap((user: User) => {}),
+                    tap((user: UserModel) => {}),
                     catchError(this.HandleError)
                 );
         return response;
+    }
+
+    public extractData() : UserModel {
+        return new UserModel("", "", "", new TokenInfo("",0), []);
     }
 
     public logout() : void {
         this.localStorage.cleanLocalUserData();
     }
 
-    public login(user: User) : void {
-
+    public login(loginModel: LoginModel) : void {
+        return;
     }
 
     public isLoggedIn() : boolean {
