@@ -1,3 +1,6 @@
+import { CLaimDTO } from "./claim.dto";
+import { TokenInfoDTO } from "./tokeninfo.dto";
+
 export class LoginResponseDTO {
     
     public readonly id: string;
@@ -12,26 +15,5 @@ export class LoginResponseDTO {
         this.email = email;
         this.tokenInfo = tokenInfo;
         this.claims = claims;
-    }
-}
-
-class TokenInfoDTO {
-
-    public readonly accessToken: string;
-    public readonly expiresIn: number;
-
-    constructor(accessToken: string, expiresIn: number) {
-        this.accessToken = accessToken;
-        this.expiresIn = expiresIn;
-    }
-}
-
-class CLaimDTO {
-    private readonly value: string;
-    private readonly type: string;
-
-    constructor(value: string, type: string) {
-        this.type = value;
-        this.value = value;
     }
 }
