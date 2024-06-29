@@ -5,7 +5,7 @@ import { UserModel } from '../../../models/user.model';
 import { AccountService } from '../../../services/account.service';
 import { DisplayMessage, GenericValidator, ValidationMessages } from '../../utils/generic-form-validation';
 import { Observable, fromEvent, merge } from 'rxjs';
-import { GuardResult, MaybeAsync, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ActiveToast, ToastrService } from 'ngx-toastr';
 import { CanComponentDeactivate } from '../guards/cancomponentdeactivate';
 import { RegisterModel } from '../../../models/register.model';
@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
     this.unsavedChanges = false;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     let password = new FormControl('', [Validators.required ,CustomValidators.rangeLength([6, 15])]);
     let confirmPassword = new FormControl('',[Validators.required , CustomValidators.equalTo(password)]);
 
@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
     });
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     let controlsBlurs: Observable<any>[] = this.formInputElements
     .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
   
@@ -86,7 +86,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
     });
   }
 
-  addUserAccount() : void {
+  public addUserAccount() : void {
     if (this.registrationForm!.dirty && this.registrationForm!.valid)
     {
       this.user = Object.assign({}, this.user, this.registrationForm?.value); 
@@ -99,7 +99,28 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
     }
   }
 
-  getErrorListByFormControlName(formControlName : string) : string[]
+  public processSuccess(model: UserModel) {
+    this.registrationForm.reset();
+    this.errors = [];
+    this.unsavedChanges = false;
+
+    const activeToast: ActiveToast<any> = this.toastr.success('Cadastro realizado com sucesso!', 'Bem vindo!', {
+      progressBar: true
+    });
+    activeToast.onHidden.subscribe(() => this.router.navigate(['/home']));
+  }
+
+  public processError(fail: any) {
+    this.errors = fail.error.errors.Message;
+  }
+
+  public canDeactivate() {
+    if (this.unsavedChanges)
+      return window.confirm("Tem certeza que deseja sair?");
+    return true; 
+  }
+
+  public getErrorListByFormControlName(formControlName : string) : string[]
   {
     const errors : string[] = [];
     const messagesOfControl = this.displayMessage[formControlName];
@@ -108,27 +129,5 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
       errors.push(messagesOfControl[error]);
     }
     return errors;
-  }
-
-  processSuccess(response: any) {
-    this.registrationForm.reset();
-    this.errors = [];
-    this.unsavedChanges = false;
-    
-    this.accountService.localStorage.saveLocalUserData(response);
-    const activeToast: ActiveToast<any> = this.toastr.success('Cadastro realizado com sucesso!', 'Bem vindo!', {
-      progressBar: true
-    });
-    activeToast.onHidden.subscribe(() => this.router.navigate(['/home']));
-  }
-
-  processError(fail: any) {
-    this.errors = fail.error.errors.Message;
-  }
-
-  canDeactivate() {
-    if (this.unsavedChanges)
-      return window.confirm("Tem certeza que deseja sair?");
-    return true; 
   }
 }

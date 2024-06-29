@@ -4,7 +4,10 @@ import { FormBuilder, FormControlName, FormGroup, ReactiveFormsModule, Validator
 import { DisplayMessage, GenericValidator, ValidationMessages } from '../../utils/generic-form-validation';
 import { CustomValidators } from '@narik/custom-validators';
 import { Observable, fromEvent, merge } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { ActiveToast, ToastrService } from 'ngx-toastr';
+import { Router, RouterLink } from '@angular/router';
+import { LoginModel } from '../../../models/login.model';
+import { UserModel } from '../../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -19,11 +22,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChildren(FormControlName, {read: ElementRef})
   private formInputElements!: ElementRef[];
 
-
   private readonly formBuilder : FormBuilder;
   private readonly accountService : AccountService;
   private readonly validationMessages: ValidationMessages;
   private readonly genericValidator: GenericValidator;
+  private readonly toastr: ToastrService;
+  private readonly router: Router;
   
   public loginForm! : FormGroup;
   public displayMessage: DisplayMessage = {};
@@ -31,10 +35,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
 
   constructor(formBuilder : FormBuilder, 
-              accountService : AccountService) {
+              accountService : AccountService,
+              toastr: ToastrService,
+              router: Router) {
     
     this.formBuilder = formBuilder;
     this.accountService = accountService;
+    this.toastr = toastr;
+    this.router = router;
     
     this.validationMessages = {
       email: {
@@ -49,7 +57,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.genericValidator = new GenericValidator(this.validationMessages);
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     let controlsBlurs: Observable<any>[] = this.formInputElements
     .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
   
@@ -58,26 +66,38 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, CustomValidators.rangeLength([6, 15])]],
     });
   }
 
-  loginUser() {
+  public loginUser() {
     if(this.loginForm.dirty && this.loginForm.valid)
     {
-      
+      const loginModel: LoginModel = new LoginModel(this.loginForm.get('login')?.value ?? '', this.loginForm.get('password')?.value ?? '');
+      this.accountService
+        .login(loginModel)
+        .subscribe({
+          next: userModel => {this.processSuccess(userModel)},
+          error: error => {this.proccessError(error)}
+        });
     }
   }
 
-  processSuccess(response: any) {
+  public processSuccess(model: UserModel) {
+    this.loginForm.reset();
+    this.errors = [];
 
+    const activeToast: ActiveToast<any> = this.toastr.success('Cadastro realizado com sucesso!', 'Bem vindo!', {
+      progressBar: true
+    });
+    activeToast.onHidden.subscribe(() => this.router.navigate(['/home']));
   }
 
-  proccessError(fail: any) {
-
+  public proccessError(fail: any) {
+    this.errors = fail.error.errors.Message;
   }
 
   
@@ -91,5 +111,4 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
     return errors;
   }
-
 }
