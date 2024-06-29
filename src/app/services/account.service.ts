@@ -5,8 +5,8 @@ import { UserModel } from "../models/user.model";
 import { Observable, catchError, map, tap } from "rxjs";
 import { BaseService } from "./base.service";
 import { LoginModel } from "../models/login.model";
-import { TokenInfo } from "../models/tokenInfo.model";
-import { Claim } from "../models/claim.model";
+import { TokenInfoModel } from "../models/tokenInfo.model";
+import { ClaimModel } from "../models/claim.model";
 
 @Injectable({providedIn: 'root'})
 export class AccountService extends BaseService {
@@ -30,7 +30,7 @@ export class AccountService extends BaseService {
     }
 
     public extractData() : UserModel {
-        return new UserModel("", "", "", new TokenInfo("",0), []);
+        return new UserModel("", "", "", new TokenInfoModel("",0), []);
     }
 
     public logout() : void {

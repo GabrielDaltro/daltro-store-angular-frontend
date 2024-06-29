@@ -1,6 +1,6 @@
 export class CLaimDTO {
-    private readonly value: string;
-    private readonly type: string;
+    public readonly value: string;
+    public readonly type: string;
 
     constructor(value: string, type: string) {
         this.type = value;
