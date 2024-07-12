@@ -14,10 +14,17 @@ import { RegisterResponseDTO } from "../dto/responses/register-response.dto";
 export class AccountService extends BaseService {
 
     private httpClinet : HttpClient;
+    private _isLoggedIn$ : BehaviorSubject<boolean>; 
 
     constructor(httpClient: HttpClient) {
         super();
         this.httpClinet = httpClient;
+        this._isLoggedIn$ = new BehaviorSubject<boolean>(this.isLoggedIn());
+        console.log("AccountService criado");
+    }
+
+    public get isLoggedIn$() : Observable<boolean> {
+        return this._isLoggedIn$.asObservable();
     }
 
     public registUser(registerModel: RegisterModel) : Observable<UserModel> {    
@@ -31,7 +38,10 @@ export class AccountService extends BaseService {
                 .post<RegisterResponseDTO>(this.UrlServiceV1 + 'auth/create-account', registerRequestDTO, this.getHeaderJson())
                 .pipe(
                     map(RegisterMapperService.MapToModel),
-                    tap((userModel: UserModel) => { this.localStorage.saveLocalUserData(userModel); }),
+                    tap((userModel: UserModel) => { 
+                        this.localStorage.saveUser(userModel);
+                        this._isLoggedIn$.next(true);
+                     }),
                     catchError(this.HandleError)
                 );
         return observableUserModels;
@@ -39,8 +49,7 @@ export class AccountService extends BaseService {
 
     public login(loginModel: LoginModel) : Observable<UserModel> {
 
-        if (this.isLoggedIn())
-        {
+        if (this.isLoggedIn()) {
             const userModel : UserModel = this.localStorage.getUser()!;
             const observable : BehaviorSubject<UserModel> = new BehaviorSubject<UserModel>(userModel);
             return observable
@@ -52,7 +61,12 @@ export class AccountService extends BaseService {
                 .post<LoginResponseDTO>(this.UrlServiceV1 + 'auth/login', loginRequestDTO, this.getHeaderJson())
                 .pipe(
                     map(LoginMapperService.MapToModel),
-                    tap((userModel: UserModel) => { this.localStorage.saveLocalUserData(userModel);}),
+                    tap((userModel: UserModel) => { 
+                        this.localStorage.saveUser(userModel);
+                        console.info("login antes " + this._isLoggedIn$.value);
+                        this._isLoggedIn$.next(true);
+                        console.info("login depois " + this._isLoggedIn$.value);
+                    }),
                     catchError(this.HandleError)
                 );
         return observableUserModel;
@@ -60,6 +74,9 @@ export class AccountService extends BaseService {
 
     public logout() : void {
         this.localStorage.cleanLocalUserData();
+        console.info("logout antes " + this._isLoggedIn$.value);
+        this._isLoggedIn$.next(false);
+        console.info("logout depois " + this._isLoggedIn$.value);
     }
 
     public isLoggedIn() : boolean {

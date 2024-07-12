@@ -1,3 +1,4 @@
+import { TokenInfoModel } from "../../models/tokenInfo.model";
 import { UserModel } from "../../models/user.model";
 
 export class LocalStorageUtils {
@@ -5,28 +6,34 @@ export class LocalStorageUtils {
     public getUser() : UserModel | null {
         const jsonUser = localStorage.getItem('daltrostore.user');
         if (jsonUser == null) return null;
-        return JSON.parse(jsonUser);
+        const parsedUser = JSON.parse(jsonUser);
+        return LocalStorageUtils.mapUserModelFromJson(parsedUser);
     }
 
-    public saveLocalUserData(response: any) {
-        this.saveUserToken(response.accessToken);
-        this.saveUser(response.userToken);
+    public saveUser(user: UserModel) {
+        localStorage.setItem("daltrostore.user", JSON.stringify(user));
     }
 
     public cleanLocalUserData() {
-        localStorage.removeItem("daltrostore.token");
         localStorage.removeItem("daltrostore.user");
     }
 
     public getUserToken() :string | null {
-        return localStorage.getItem("daltrostore.token");
+        const user: UserModel | null = this.getUser();
+        if (user == null)
+            return null;
+
+        const tokenInfo =  user.tokenInfo;
+        const token = tokenInfo.accessToken;
+        return  token;
     }
 
-    public saveUserToken(token: string) {
-        localStorage.setItem("daltrostore.token", token);
+    private static mapUserModelFromJson(json: any) : UserModel {              
+        const tokenInfo = LocalStorageUtils.mapTokenInfoFromJson(json._tokenInfo);
+        return new UserModel(json._id, json._name, json._email, tokenInfo, json._claims);
     }
 
-    public saveUser(user: string) {
-        localStorage.setItem("daltrostore.user", JSON.stringify(user));
+    private static mapTokenInfoFromJson(json: any) : TokenInfoModel {
+        return new TokenInfoModel(json._accessToken, json._expiresIn);
     }
 }

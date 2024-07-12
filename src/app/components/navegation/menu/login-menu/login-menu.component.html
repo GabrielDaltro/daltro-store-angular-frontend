@@ -1,4 +1,4 @@
-@if(accoutService.isLoggedIn()) {
+@if(isLoggedIn) {
     <ul class="auth-menu">
         <li><a href="javascript:void(0)">{{getUserName()}}</a></li>
         <li><a href="javascript:void(0)" (click)="logout()">Logout</a></li>

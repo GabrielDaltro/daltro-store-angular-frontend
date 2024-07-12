@@ -9,12 +9,12 @@ import { Router, RouterLink } from '@angular/router';
 import { ActiveToast, ToastrService } from 'ngx-toastr';
 import { CanComponentDeactivate } from '../guards/cancomponentdeactivate';
 import { RegisterModel } from '../../../models/register.model';
+import { ErrorResponseDTO } from '../../../dto/responses/error-response.dto';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [RouterLink, ReactiveFormsModule],
-  providers: [AccountService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -94,7 +94,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
         .registUser(this.user!)
         .subscribe({
           next: response => this.processSuccess(response),
-          error: error => this.processError(error)
+          error: error => this.proccessError(error)
         });
     }
   }
@@ -110,8 +110,9 @@ export class RegisterComponent implements OnInit, AfterViewInit, CanComponentDea
     activeToast.onHidden.subscribe(() => this.router.navigate(['/home']));
   }
 
-  public processError(fail: any) {
-    this.errors = fail.error.errors.Message;
+  public proccessError(errors: ErrorResponseDTO) {
+    this.errors.length = 0;
+    this.errors = errors.getErrorsSumary();
   }
 
   public canDeactivate() {

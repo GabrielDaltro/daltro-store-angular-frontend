@@ -8,12 +8,12 @@ import { ActiveToast, ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
 import { LoginModel } from '../../../models/login.model';
 import { UserModel } from '../../../models/user.model';
+import { ErrorResponseDTO } from '../../../dto/responses/error-response.dto';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
-  providers: [AccountService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   
   public loginForm! : FormGroup;
   public displayMessage: DisplayMessage = {};
-  public errors: any[] = [];
+  public errors: string[] = [];
 
 
   constructor(formBuilder : FormBuilder, 
@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   public loginUser() {
     if(this.loginForm.dirty && this.loginForm.valid)
     {
-      const loginModel: LoginModel = new LoginModel(this.loginForm.get('login')?.value ?? '', this.loginForm.get('password')?.value ?? '');
+      const loginModel: LoginModel = new LoginModel(this.loginForm.get('email')?.value ?? '', this.loginForm.get('password')?.value ?? '');
       this.accountService
         .login(loginModel)
         .subscribe({
@@ -96,12 +96,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
     activeToast.onHidden.subscribe(() => this.router.navigate(['/home']));
   }
 
-  public proccessError(fail: any) {
-    this.errors = fail.error.errors.Message;
+  public proccessError(errors: ErrorResponseDTO) {
+    this.errors.length = 0;
+    this.errors = errors.getErrorsSumary();
   }
 
-  
-  getErrorListByFormControlName(formControlName : string) : string[]
+  public getErrorListByFormControlName(formControlName : string) : string[]
   {
     const errors : string[] = [];
     const messagesOfControl = this.displayMessage[formControlName];
